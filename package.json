@@ -9,7 +9,9 @@
     "start": "concurrently -n USERS,AUTH -c blue,green \"npm run start -w @sistema/user-service\" \"npm run start -w @sistema/auth-service\"",
     "start:users": "npm run start -w @sistema/user-service",
     "start:auth": "npm run start -w @sistema/auth-service",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "npm run test --workspaces --if-present",
+    "test:e2e": "node --test test/e2e.test.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
@@ -18,4 +20,3 @@
     "node": ">=20"
   }
 }
-

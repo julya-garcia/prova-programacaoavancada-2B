@@ -98,3 +98,5 @@ Para rodar os testes automatizados:
 ```powershell
 npm.cmd test
 ```
+
+O comando executa os testes unitários de cada serviço e também um teste integrado que inicia os dois microsserviços em portas temporárias e valida o fluxo completo de criação, login e consultas autenticadas.
