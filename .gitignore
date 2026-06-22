@@ -1,0 +1,8 @@
+node_modules/
+.npm-cache/
+.tools/
+.gh-auth/
+.env
+coverage/
+*.log
+services/user-service/data/users.json

@@ -1,0 +1,21 @@
+{
+  "name": "sistema-usuarios-microsservicos",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "start": "concurrently -n USERS,AUTH -c blue,green \"npm run start -w @sistema/user-service\" \"npm run start -w @sistema/auth-service\"",
+    "start:users": "npm run start -w @sistema/user-service",
+    "start:auth": "npm run start -w @sistema/auth-service",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+
