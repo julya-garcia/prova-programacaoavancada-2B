@@ -66,6 +66,12 @@ function createApp({ repository, jwtSecret, internalApiKey, corsOrigins = '*', p
     res.json(repository.findAll().map(publicUser));
   });
 
+  app.get('/api/users/me', authenticate(jwtSecret), (req, res) => {
+    const user = repository.findById(req.auth.sub);
+    if (!user) return res.status(404).json({ error: 'Usuário autenticado não encontrado.' });
+    return res.json(publicUser(user));
+  });
+
   app.get('/api/users/:id', authenticate(jwtSecret), (req, res) => {
     const user = repository.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'Usuário não encontrado.' });
@@ -88,4 +94,3 @@ function createApp({ repository, jwtSecret, internalApiKey, corsOrigins = '*', p
 }
 
 module.exports = { createApp };
-

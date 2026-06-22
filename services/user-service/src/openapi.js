@@ -66,6 +66,16 @@ function createOpenApi(port) {
           responses: { 200: { description: 'Usuário encontrado' }, 401: { description: 'Não autenticado' }, 404: { description: 'Usuário não encontrado' } }
         }
       },
+      '/api/users/me': {
+        get: {
+          tags: ['Usuários'], summary: 'Consulta o usuário autenticado', security: [{ bearerAuth: [] }],
+          responses: {
+            200: { description: 'Dados do usuário autenticado', content: { 'application/json': { schema: { $ref: '#/components/schemas/User' } } } },
+            401: { description: 'JWT ausente, inválido ou expirado' },
+            404: { description: 'Usuário do token não encontrado' }
+          }
+        }
+      },
       '/internal/users/by-email/{email}': {
         get: {
           tags: ['Interno'], summary: 'Obtém os dados de autenticação pelo e-mail', security: [{ internalApiKey: [] }],
@@ -78,4 +88,3 @@ function createOpenApi(port) {
 }
 
 module.exports = { createOpenApi };
-

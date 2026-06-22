@@ -48,6 +48,7 @@ Cada microsserviço expõe sua própria documentação Swagger interativa:
 |---|---|---|---|
 | `POST` | `http://localhost:3001/api/users` | Pública | Criar usuário |
 | `GET` | `http://localhost:3001/api/users` | Bearer JWT | Listar usuários |
+| `GET` | `http://localhost:3001/api/users/me` | Bearer JWT | Consultar o usuário autenticado |
 | `GET` | `http://localhost:3001/api/users/{id}` | Bearer JWT | Consultar usuário pelo ID |
 | `POST` | `http://localhost:3002/api/auth/login` | Pública | Efetuar login e obter JWT |
 | `GET` | `http://localhost:3002/api/auth/validate` | Bearer JWT | Validar token e consultar seus dados |

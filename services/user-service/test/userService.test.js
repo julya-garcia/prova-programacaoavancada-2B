@@ -50,10 +50,13 @@ describe('microsserviço de usuários', () => {
 
     const token = jwt.sign({ email: created.body.email }, jwtSecret, { subject: created.body.id, expiresIn: '1h' });
     const list = await request(app).get('/api/users').set('Authorization', `Bearer ${token}`);
+    const me = await request(app).get('/api/users/me').set('Authorization', `Bearer ${token}`);
     const byId = await request(app).get(`/api/users/${created.body.id}`).set('Authorization', `Bearer ${token}`);
 
     assert.equal(list.status, 200);
     assert.equal(list.body.length, 1);
+    assert.equal(me.status, 200);
+    assert.equal(me.body.id, created.body.id);
     assert.equal(byId.status, 200);
     assert.equal(byId.body.id, created.body.id);
   });
@@ -81,8 +84,8 @@ describe('microsserviço de usuários', () => {
     const response = await request(app).get('/api-docs.json');
     assert.equal(response.status, 200);
     assert.ok(response.body.paths['/api/users']);
+    assert.ok(response.body.paths['/api/users/me']);
     assert.ok(response.body.paths['/api/users/{id}']);
     assert.ok(response.body.paths['/internal/users/by-email/{email}']);
   });
 });
-
