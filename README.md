@@ -34,7 +34,7 @@ npm.cmd run start:users
 npm.cmd run start:auth
 ```
 
-Também é possível executar com `docker compose up --build`. Antes de publicar o sistema, copie `.env.example` para `.env` e substitua `JWT_SECRET` e `INTERNAL_API_KEY` por valores longos e aleatórios.
+Também é possível executar com `docker compose up --build`. Os contêineres possuem verificações de saúde, e o Auth Service aguarda o User Service estar disponível. Antes de publicar o sistema, copie `.env.example` para `.env` e substitua `JWT_SECRET` e `INTERNAL_API_KEY` por valores longos e aleatórios.
 
 ## Documentação e endpoints
 

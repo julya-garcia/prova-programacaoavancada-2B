@@ -10,11 +10,18 @@ services:
       - "3001:3001"
     volumes:
       - users-data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
   auth-service:
     build: ./services/auth-service
     depends_on:
-      - user-service
+      user-service:
+        condition: service_healthy
     environment:
       AUTH_SERVICE_PORT: 3002
       USER_SERVICE_URL: http://user-service:3001
@@ -24,7 +31,12 @@ services:
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
     ports:
       - "3002:3002"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3002/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
 volumes:
   users-data:
-
