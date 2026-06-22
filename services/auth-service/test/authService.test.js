@@ -49,6 +49,25 @@ describe('microsserviço de autenticação', () => {
     const docs = await request(await testApp()).get('/api-docs.json');
     assert.equal(docs.status, 200);
     assert.ok(docs.body.paths['/api/auth/login']);
+    assert.ok(docs.body.paths['/api/auth/validate']);
+  });
+
+  test('valida um token JWT e rejeita token ausente', async () => {
+    const app = await testApp();
+    const token = jwt.sign(
+      { name: 'Maria Silva', email: 'maria@email.com' },
+      jwtSecret,
+      { subject: '93cb34ea-5916-47ac-b525-dd6f020f887e', expiresIn: '1h' }
+    );
+
+    const valid = await request(app)
+      .get('/api/auth/validate')
+      .set('Authorization', `Bearer ${token}`);
+    const missing = await request(app).get('/api/auth/validate');
+
+    assert.equal(valid.status, 200);
+    assert.equal(valid.body.valid, true);
+    assert.equal(valid.body.user.email, 'maria@email.com');
+    assert.equal(missing.status, 401);
   });
 });
-

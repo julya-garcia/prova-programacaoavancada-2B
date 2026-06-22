@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
+const { authenticate } = require('./authenticate');
 const { createOpenApi } = require('./openapi');
 
 function corsOptions(origins) {
@@ -56,6 +57,13 @@ function createApp({ userServiceClient, jwtSecret, jwtExpiresIn = '1h', corsOrig
     }
   });
 
+  app.get('/api/auth/validate', authenticate(jwtSecret), (req, res) => {
+    res.json({
+      valid: true,
+      user: { id: req.auth.sub, name: req.auth.name, email: req.auth.email }
+    });
+  });
+
   app.use((_req, res) => res.status(404).json({ error: 'Endpoint não encontrado.' }));
   app.use((error, _req, res, _next) => {
     if (error.message === 'Origem não permitida pelo CORS.') return res.status(403).json({ error: error.message });
@@ -67,4 +75,3 @@ function createApp({ userServiceClient, jwtSecret, jwtExpiresIn = '1h', corsOrig
 }
 
 module.exports = { createApp };
-

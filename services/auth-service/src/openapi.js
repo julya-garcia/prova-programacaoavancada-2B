@@ -9,6 +9,9 @@ function createOpenApi(port) {
     servers: [{ url: `http://localhost:${port}` }],
     tags: [{ name: 'Autenticação' }, { name: 'Sistema' }],
     components: {
+      securitySchemes: {
+        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
+      },
       schemas: {
         Login: {
           type: 'object', required: ['email', 'password'],
@@ -42,10 +45,18 @@ function createOpenApi(port) {
             503: { description: 'Serviço de usuários indisponível' }
           }
         }
+      },
+      '/api/auth/validate': {
+        get: {
+          tags: ['Autenticação'], summary: 'Valida um token JWT', security: [{ bearerAuth: [] }],
+          responses: {
+            200: { description: 'Token válido' },
+            401: { description: 'Token ausente, inválido ou expirado' }
+          }
+        }
       }
     }
   };
 }
 
 module.exports = { createOpenApi };
-

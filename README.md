@@ -50,6 +50,7 @@ Cada microsserviço expõe sua própria documentação Swagger interativa:
 | `GET` | `http://localhost:3001/api/users` | Bearer JWT | Listar usuários |
 | `GET` | `http://localhost:3001/api/users/{id}` | Bearer JWT | Consultar usuário pelo ID |
 | `POST` | `http://localhost:3002/api/auth/login` | Pública | Efetuar login e obter JWT |
+| `GET` | `http://localhost:3002/api/auth/validate` | Bearer JWT | Validar token e consultar seus dados |
 | `GET` | `http://localhost:3001/internal/users/by-email/{email}` | `X-Internal-Api-Key` | Comunicação Auth → Users |
 | `GET` | `/health` | Pública | Saúde de cada serviço |
 
@@ -96,4 +97,3 @@ Para rodar os testes automatizados:
 ```powershell
 npm.cmd test
 ```
-
